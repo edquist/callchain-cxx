@@ -51,17 +51,17 @@ struct CallchainV {
 
 	template <class R, class A1>
 	CallchainFV1<R,A1>
-	operator() (R (*f)(A1)) const
+	operator() (R (*f)(A1))
 	{ return CallchainFV1<R,A1>(f,v); }
 
 	template <class R, class A1, class A2>
 	CallchainFV2<R,A1,A2>
-	operator() (R (*f)(A1,A2)) const
+	operator() (R (*f)(A1,A2))
 	{ return CallchainFV2<R,A1,A2>(f,v); }
 
 	template <class R, class A1, class A2, class A3>
 	CallchainFV3<R,A1,A2,A3>
-	operator() (R (*f)(A1,A2,A3)) const
+	operator() (R (*f)(A1,A2,A3))
 	{ return CallchainFV3<R,A1,A2,A3>(f,v); }
 
 	V operator() () const
