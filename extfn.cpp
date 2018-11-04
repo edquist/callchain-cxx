@@ -145,6 +145,11 @@ int bar(int x, int y) { return x + 100 * y; }
 
 int baz(int x, int y) { return x + y; }
 
+std::string substr(std::string s, size_t pos, size_t len)
+{
+	return s.substr(pos, len);
+}
+
 int main()
 {
 	BOO	("hi")
@@ -155,16 +160,16 @@ int main()
 	std::cout << "\n\n";
 
 	int nn = callchain(99)(foo)()
-		              (bar)(88)
-		              (baz)(77)
-		              ();
+	                      (bar)(88)
+	                      (baz)(77)
+	                      ();
 
 	std::cout << nn << "\n\n";
 
 	int mm = callchainF(foo)(99)
-		           (bar)(88)
-		           (baz)(77)
-		           ();
+	                   (bar)(88)
+	                   (baz)(77)
+	                   ();
 
 	std::cout << mm << "\n\n";
 
@@ -189,6 +194,18 @@ int main()
 	                       ();
 	std::cout << "\n\n";
 
+	std::string xdigits("0123456789abcdef");
+
+	std::cout << substr(substr(substr(xdigits, 2,9), 3,4), 1,2);
+
+	std::cout << "\n\n";
+
+	std::cout << callchain(xdigits)(substr)(2,9)
+	                               (substr)(3,4)
+	                               (substr)(1,2)
+	                               ();
+
+	std::cout << "\n\n";
 }
 
 //	foo(99).bar(88).baz(77) -> baz(bar(foo(99), 88), 77)
