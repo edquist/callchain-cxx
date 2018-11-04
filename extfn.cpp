@@ -73,7 +73,6 @@ template <class R, class V>
 struct CallchainF1 {
 	typedef R  fn_t(V);
 	fn_t      *fn;
-	V          val;
 
 	CallchainF1(fn_t *fn_) : fn(fn_) {}
 
@@ -86,7 +85,6 @@ template <class R, class V, class A2>
 struct CallchainF2 {
 	typedef R  fn_t(V, A2);
 	fn_t      *fn;
-	V          val;
 
 	CallchainF2(fn_t *fn_) : fn(fn_) {}
 
@@ -99,7 +97,6 @@ template <class R, class V, class A2, class A3>
 struct CallchainF3 {
 	typedef R  fn_t(V, A2, A3);
 	fn_t      *fn;
-	V          val;
 
 	CallchainF3(fn_t *fn_) : fn(fn_) {}
 
