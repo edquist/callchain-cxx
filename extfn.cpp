@@ -4,13 +4,6 @@
 template <class V>
 struct CallchainV;
 
-template <class V>
-CallchainV<V>
-callchain(V v)
-{
-	return CallchainV<V>(v);
-}
-
 template <class R, class V>
 struct CallchainFV1 {
 	typedef R  fn_t(V);
@@ -115,19 +108,26 @@ struct CallchainF3 {
 	{ return CallchainV<R>(fn(val, a2, a3)); }
 };
 
+
+// start callchain with a value
+
+template <class V>
+  inline CallchainV<V> callchain(V val)
+{ return CallchainV<V>(val); }
+
+
+// start callchain with a function
+
 template <class R, class V>
-CallchainF1<R,V>
-callchainF(R (*f)(V))
+  inline CallchainF1<R,V> callchainF(R (*f)(V))
 { return CallchainF1<R,V>(f); }
 
 template <class R, class V, class A2>
-CallchainF2<R,V,A2>
-callchainF(R (*f)(V,A2))
+  inline CallchainF2<R,V,A2> callchainF(R (*f)(V,A2))
 { return CallchainF2<R,V,A2>(f); }
 
 template <class R, class V, class A2, class A3>
-CallchainF3<R,V,A2,A3>
-callchainF(R (*f)(V,A2,A3))
+  inline CallchainF3<R,V,A2,A3> callchainF(R (*f)(V,A2,A3))
 { return CallchainF3<R,V,A2,A3>(f); }
 
 
