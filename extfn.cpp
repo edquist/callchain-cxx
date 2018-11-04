@@ -69,40 +69,40 @@ struct CallchainV {
 };
 
 
-template <class R, class V>
+template <class R, class A1>
 struct CallchainF1 {
-	typedef R  fn_t(V);
+	typedef R  fn_t(A1);
 	fn_t      *fn;
 
 	CallchainF1(fn_t *fn_) : fn(fn_) {}
 
 	CallchainV<R>
-	operator() (V val) const
-	{ return CallchainV<R>(fn(val)); }
+	operator() (A1 a1) const
+	{ return CallchainV<R>(fn(a1)); }
 };
 
-template <class R, class V, class A2>
+template <class R, class A1, class A2>
 struct CallchainF2 {
-	typedef R  fn_t(V, A2);
+	typedef R  fn_t(A1, A2);
 	fn_t      *fn;
 
 	CallchainF2(fn_t *fn_) : fn(fn_) {}
 
 	CallchainV<R>
-	operator() (V val, A2 a2) const
-	{ return CallchainV<R>(fn(val, a2)); }
+	operator() (A1 a1, A2 a2) const
+	{ return CallchainV<R>(fn(a1, a2)); }
 };
 
-template <class R, class V, class A2, class A3>
+template <class R, class A1, class A2, class A3>
 struct CallchainF3 {
-	typedef R  fn_t(V, A2, A3);
+	typedef R  fn_t(A1, A2, A3);
 	fn_t      *fn;
 
 	CallchainF3(fn_t *fn_) : fn(fn_) {}
 
 	CallchainV<R>
-	operator() (V val, A2 a2, A3 a3) const
-	{ return CallchainV<R>(fn(val, a2, a3)); }
+	operator() (A1 a1, A2 a2, A3 a3) const
+	{ return CallchainV<R>(fn(a1, a2, a3)); }
 };
 
 
