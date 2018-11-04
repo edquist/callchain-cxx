@@ -25,17 +25,15 @@ struct CallchainFV1 {
 	fn_t      *fn;
 	const V   &val;
 
-	CallchainFV1(fn_t *fn_, const V &val_) : fn(fn_), val(val_) {}
+	CallchainFV1(fn_t *fn_, const V &val_) : fn(fn_), val(val_)
+	{
+		std::cout << "[CallchainFV1(" << val << ")]\n";
+	}
 
 	CallchainV<R>
 	operator() () const
-	{ return callchain(fn(val)); }
+	{ return CallchainV<R>(fn(val)); }
 };
-
-template <class R, class V>
-CallchainFV1<R,V>
-callchainFV(R (*f)(V), const V &v)
-{ return CallchainFV1<R,V>(f,v); }
 
 template <class R, class V, class A2>
 struct CallchainFV2 {
@@ -43,17 +41,15 @@ struct CallchainFV2 {
 	fn_t      *fn;
 	const V   &val;
 
-	CallchainFV2(fn_t *fn_, const V &val_) : fn(fn_), val(val_) {}
+	CallchainFV2(fn_t *fn_, const V &val_) : fn(fn_), val(val_)
+	{
+		std::cout << "[CallchainFV2(" << val << ")]\n";
+	}
 
 	CallchainV<R>
 	operator() (const A2 &a2) const
-	{ return callchain(fn(val, a2)); }
+	{ return CallchainV<R>(fn(val, a2)); }
 };
-
-template <class R, class V, class A2>
-CallchainFV2<R,V,A2>
-callchainFV(R (*f)(V,A2), const V &v)
-{ return CallchainFV2<R,V,A2>(f,v); }
 
 template <class R, class V, class A2, class A3>
 struct CallchainFV3 {
@@ -61,23 +57,24 @@ struct CallchainFV3 {
 	fn_t      *fn;
 	const V   &val;
 
-	CallchainFV3(fn_t *fn_, const V &val_) : fn(fn_), val(val_) {}
+	CallchainFV3(fn_t *fn_, const V &val_) : fn(fn_), val(val_)
+	{
+		std::cout << "[CallchainFV3(" << val << ")]\n";
+	}
 
 	CallchainV<R>
 	operator() (const A2 &a2, const A3 &a3) const
-	{ return callchain(fn(val, a2, a3)); }
+	{ return CallchainV<R>(fn(val, a2, a3)); }
 };
-
-template <class R, class V, class A2, class A3>
-CallchainFV3<R,V,A2,A3>
-callchainFV(R (*f)(V,A2,A3), const V &v)
-{ return CallchainFV3<R,V,A2,A3>(f,v); }
 
 template <class V>
 struct CallchainV {
 	const V &v;
 
-	CallchainV(const V &v_) : v(v_) {}
+	CallchainV(const V &v_) : v(v_)
+	{
+		std::cout << "[CallchainV(" << v << ")]\n";
+	}
 
 	template <class R>
 	CallchainFV1<R,V>
@@ -87,7 +84,9 @@ struct CallchainV {
 	template <class R, class A2>
 	CallchainFV2<R,V,A2>
 	operator() (R (*f)(V,A2))
-	{ return CallchainFV2<R,V,A2>(f,v); }
+	{
+		std::cerr << "[CallchainV (FV2) v=" << v << "]\n";
+		return CallchainFV2<R,V,A2>(f,v); }
 
 	template <class R, class A2, class A3>
 	CallchainFV3<R,V,A2,A3>
