@@ -142,9 +142,10 @@ std::string substr(std::string s, size_t pos, size_t len)
 }
 
 
-//  foo(99).bar(88).baz(77) -> baz(bar(foo(99), 88), 77)
 void ex1()
 {
+	// foo(99).bar(88).baz(77)
+
 	std::cout << "\n";
 
 	std::cout << baz(bar(foo(99), 88), 77);
@@ -167,6 +168,8 @@ void ex1()
 
 void ex2()
 {
+	// sqrt(12345.67).sqrt().sqrt()
+
 	std::cout << sqrt(sqrt(sqrt(12345.67)));
 
 	std::cout << "\n";
@@ -187,6 +190,8 @@ void ex2()
 
 void ex3()
 {
+	// substr(xdigits,2,12).substr(5,6).substr(1,4)
+
 	std::string xdigits("0123456789abcdef");
 
 	std::cout << substr(substr(substr(xdigits, 2,12), 5,6), 1,4);
