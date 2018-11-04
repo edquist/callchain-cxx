@@ -141,56 +141,75 @@ std::string substr(std::string s, size_t pos, size_t len)
 	return s.substr(pos, len);
 }
 
-int main()
+
+//  foo(99).bar(88).baz(77) -> baz(bar(foo(99), 88), 77)
+void ex1()
 {
-	int nn = callchain(99)(foo)()
-	                      (bar)(88)
-	                      (baz)(77)
-	                      ();
+	std::cout << "\n";
 
-	std::cout << nn << "\n\n";
+	std::cout << baz(bar(foo(99), 88), 77);
 
-	int mm = callchainF(foo)(99)
-	                   (bar)(88)
-	                   (baz)(77)
-	                   ();
+	std::cout << "\n";
 
-	std::cout << mm << "\n\n";
+	std::cout << callchainF(foo)(99)
+	                       (bar)(88)
+	                       (baz)(77)
+	                       ();
+	std::cout << "\n";
 
-	std::cout << baz(bar(foo(99), 88), 77) << "\n";
+	std::cout << callchain(99)(foo)()
+	                          (bar)(88)
+	                          (baz)(77)
+	                          ();
 
-	std::cout << "\n\n";
+	std::cout << "\n\n---\n\n";
+}
 
+void ex2()
+{
 	std::cout << sqrt(sqrt(sqrt(12345.67)));
 
-	std::cout << "\n\n";
-
-	std::cout << callchain(12345.67)(sqrt)()
-	                                (sqrt)()
-	                                (sqrt)()
-	                                ();
-
-	std::cout << "\n\n";
+	std::cout << "\n";
 
 	std::cout << callchainF(sqrt)(12345.67)
 	                       (sqrt)()
 	                       (sqrt)()
 	                       ();
-	std::cout << "\n\n";
 
+	std::cout << "\n";
+
+	std::cout << callchain(12345.67)(sqrt)()
+	                                (sqrt)()
+	                                (sqrt)()
+	                                ();
+	std::cout << "\n\n---\n\n";
+}
+
+void ex3()
+{
 	std::string xdigits("0123456789abcdef");
 
 	std::cout << substr(substr(substr(xdigits, 2,9), 3,4), 1,2);
 
-	std::cout << "\n\n";
+	std::cout << "\n";
+
+	std::cout << callchainF(substr)(xdigits,2,9)
+	                       (substr)(3,4)
+	                       (substr)(1,2)
+	                       ();
+	std::cout << "\n";
 
 	std::cout << callchain(xdigits)(substr)(2,9)
 	                               (substr)(3,4)
 	                               (substr)(1,2)
 	                               ();
-
-	std::cout << "\n\n";
+	std::cout << "\n\n---\n\n";
 }
 
-//	foo(99).bar(88).baz(77) -> baz(bar(foo(99), 88), 77)
+int main()
+{
+	ex1();
+	ex2();
+	ex3();
+}
 
