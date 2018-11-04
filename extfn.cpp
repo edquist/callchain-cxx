@@ -1,4 +1,5 @@
 #include <iostream>
+#include <math.h>
 
 struct Boo {
 	template <class T>
@@ -106,6 +107,19 @@ int main()
 	std::cout << nn << "\n\n";
 
 	std::cout << baz(bar(foo(99), 88), 77) << "\n";
+
+	std::cout << "\n\n";
+
+	std::cout << sqrt(sqrt(sqrt(12345.67)));
+
+	std::cout << "\n\n";
+
+	std::cout << callchain(12345.67)(sqrt)()
+	                                (sqrt)()
+	                                (sqrt)()
+	                                ();
+	std::cout << "\n\n";
+
 }
 
 //	foo(99).bar(88).baz(77) -> baz(bar(foo(99), 88), 77)
