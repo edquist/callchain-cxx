@@ -19,64 +19,59 @@ callchain(const V &v)
 	return CallchainV<V>(v);
 }
 
-template <class F, class V>
-struct CallchainFV {
-	F &f;
-	const V &v;
+template <class R, class V>
+struct CallchainFV1 {
+	typedef R  fn_t(V);
+	fn_t      *fn;
+	const V   &val;
 
-	CallchainFV(F &f_, const V &v_) : f(f_), v(v_) {}
+	CallchainFV1(fn_t *fn_, const V &val_) : fn(fn_), val(val_) {}
 
-	CallchainV<typeof(f(v))>
+	CallchainV<R>
 	operator() () const
-	{ return callchain(f(v)); }
-
-	template <class T>
-	CallchainV<typeof(f(v, T()))>
-	operator() (const T &x) const
-	{ return callchain(f(v, x)); }
-
-	template <class T1, class T2>
-	CallchainV<typeof(f(v, T1(), T2()))>
-	operator() (const T1 &x1, const T2 &x2) const
-	{ return callchain(f(v, x1, x2)); }
-
-	template <class T1, class T2, class T3>
-	CallchainV<typeof(f(v, T1(), T2(), T3()))>
-	operator() (const T1 &x1, const T2 &x2, const T3 &x3) const
-	{ return callchain(f(v, x1, x2, x3)); }
+	{ return callchain(fn(val)); }
 };
 
 template <class R, class V>
-struct CallchainFV {
-	typedef R  f_t(V);
-	f_t       *f;
-	const V &v;
+CallchainFV1<R,V>
+callchainFV(R (*f)(V), const V &v)
+{ return CallchainFV1<R,V>(f,v); }
 
-	CallchainFV(F &f_, const V &v_) : f(f_), v(v_) {}
+template <class R, class V, class A2>
+struct CallchainFV2 {
+	typedef R  fn_t(V, A2);
+	fn_t      *fn;
+	const V   &val;
 
-	CallchainV<typeof(f(v))>
-	operator() () const
-	{ return callchain(f(v)); }
+	CallchainFV2(fn_t *fn_, const V &val_) : fn(fn_), val(val_) {}
 
-	template <class T>
-	CallchainV<typeof(f(v, T()))>
-	operator() (const T &x) const
-	{ return callchain(f(v, x)); }
-
-	template <class T1, class T2>
-	CallchainV<typeof(f(v, T1(), T2()))>
-	operator() (const T1 &x1, const T2 &x2) const
-	{ return callchain(f(v, x1, x2)); }
-
-	template <class T1, class T2, class T3>
-	CallchainV<typeof(f(v, T1(), T2(), T3()))>
-	operator() (const T1 &x1, const T2 &x2, const T3 &x3) const
-	{ return callchain(f(v, x1, x2, x3)); }
+	CallchainV<R>
+	operator() (const A2 &a2) const
+	{ return callchain(fn(val, a2)); }
 };
 
-template <class R>
-CallchainFV
-callchainFV(
+template <class R, class V, class A2>
+CallchainFV2<R,V,A2>
+callchainFV(R (*f)(V,A2), const V &v)
+{ return CallchainFV2<R,V,A2>(f,v); }
+
+template <class R, class V, class A2, class A3>
+struct CallchainFV3 {
+	typedef R  fn_t(V, A2, A3);
+	fn_t      *fn;
+	const V   &val;
+
+	CallchainFV3(fn_t *fn_, const V &val_) : fn(fn_), val(val_) {}
+
+	CallchainV<R>
+	operator() (const A2 &a2, const A3 &a3) const
+	{ return callchain(fn(val, a2, a3)); }
+};
+
+template <class R, class V, class A2, class A3>
+CallchainFV3<R,V,A2,A3>
+callchainFV(R (*f)(V,A2,A3), const V &v)
+{ return CallchainFV3<R,V,A2,A3>(f,v); }
 
 template <class V>
 struct CallchainV {
@@ -84,12 +79,20 @@ struct CallchainV {
 
 	CallchainV(const V &v_) : v(v_) {}
 
-	template <class F>
-	CallchainFV<F,V>
-	operator() (F &f) const
-	{
-		return CallchainFV<F,V>(f,v);
-	}
+	template <class R>
+	CallchainFV1<R,V>
+	operator() (R (*f)(V))
+	{ return CallchainFV1<R,V>(f,v); }
+
+	template <class R, class A2>
+	CallchainFV2<R,V,A2>
+	operator() (R (*f)(V,A2))
+	{ return CallchainFV2<R,V,A2>(f,v); }
+
+	template <class R, class A2, class A3>
+	CallchainFV3<R,V,A2,A3>
+	operator() (R (*f)(V,A2,A3))
+	{ return CallchainFV3<R,V,A2,A3>(f,v); }
 
 	const V &operator() () const
 	{
@@ -97,11 +100,17 @@ struct CallchainV {
 	}
 };
 
-int foo(int x) { return x * 10000; }
+int foo(int x) {
+	std::cerr << "[hi from foo(" << x << ")]\n";
+	return x * 10000; }
 
-int bar(int x, int y) { return x + 100 * y; }
+int bar(int x, int y) {
+	std::cerr << "[hi from bar(" << x << "," << y << ")]\n";
+	return x + 100 * y; }
 
-int baz(int x, int y) { return x + y; }
+int baz(int x, int y) {
+	std::cerr << "[hi from baz(" << x << "," << y << ")]\n";
+	return x + y; }
 
 int main()
 {
@@ -110,16 +119,11 @@ int main()
 		("Mr")
 		("Man");
 
-	int nn =
-		callchain(99)
-		(foo)
-		()
-		(bar)
-		(88)
-		(baz)
-		(77)
-		()
-		;
+	int nn = callchain(99)
+		(foo)()
+		(bar)(88)
+		(baz)(77)
+		();
 	std::cout << nn << "\n\n";
 	std::cout << baz(bar(foo(99), 88), 77) << "\n";
 }
