@@ -189,19 +189,19 @@ void ex3()
 {
 	std::string xdigits("0123456789abcdef");
 
-	std::cout << substr(substr(substr(xdigits, 2,9), 3,4), 1,2);
+	std::cout << substr(substr(substr(xdigits, 2,12), 5,6), 1,4);
 
 	std::cout << "\n";
 
-	std::cout << callchainF(substr)(xdigits,2,9)
-	                       (substr)(3,4)
-	                       (substr)(1,2)
+	std::cout << callchainF(substr)(xdigits,2,12)
+	                       (substr)(5,6)
+	                       (substr)(1,4)
 	                       ();
 	std::cout << "\n";
 
-	std::cout << callchain(xdigits)(substr)(2,9)
-	                               (substr)(3,4)
-	                               (substr)(1,2)
+	std::cout << callchain(xdigits)(substr)(2,12)
+	                               (substr)(5,6)
+	                               (substr)(1,4)
 	                               ();
 	std::cout << "\n\n---\n\n";
 }
