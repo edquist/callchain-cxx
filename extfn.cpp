@@ -1,15 +1,6 @@
 #include <iostream>
 #include <math.h>
 
-struct Boo {
-	template <class T>
-	const Boo &operator() (T &thing) const
-	{
-		std::cout << thing << "\n";
-		return *this;
-	}
-} BOO;
-
 template <class V>
 struct CallchainV;
 
@@ -152,13 +143,6 @@ std::string substr(std::string s, size_t pos, size_t len)
 
 int main()
 {
-	BOO	("hi")
-		("There")
-		("Mr")
-		("Man");
-
-	std::cout << "\n\n";
-
 	int nn = callchain(99)(foo)()
 	                      (bar)(88)
 	                      (baz)(77)
