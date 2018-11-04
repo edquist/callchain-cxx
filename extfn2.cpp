@@ -2,25 +2,25 @@
 #include <math.h>
 
 template <class V>
-struct CallchainV {
+struct Callchain {
 	V v;
 
-	CallchainV(V v_) : v(v_) {}
+	Callchain(V v_) : v(v_) {}
 
 	template <class R, class A1>
-	CallchainV<R>
+	Callchain<R>
 	operator() (R (*f)(A1))
-	{ return CallchainV<R>(f(v)); }
+	{ return Callchain<R>(f(v)); }
 
 	template <class R, class A1, class A2, class V2>
-	CallchainV<R>
+	Callchain<R>
 	operator() (R (*f)(A1,A2), V2 v2)
-	{ return CallchainV<R>(f(v,v2)); }
+	{ return Callchain<R>(f(v,v2)); }
 
 	template <class R, class A1, class A2, class A3, class V2, class V3>
-	CallchainV<R>
+	Callchain<R>
 	operator() (R (*f)(A1,A2,A3), V2 v2, V3 v3)
-	{ return CallchainV<R>(f(v,v2,v3)); }
+	{ return Callchain<R>(f(v,v2,v3)); }
 
 	V operator() () const
 	{ return v; }
@@ -30,8 +30,8 @@ struct CallchainV {
 // start callchain with a value
 
 template <class V>
-  inline CallchainV<V> callchain(V val)
-{ return CallchainV<V>(val); }
+  inline Callchain<V> callchain(V val)
+{ return Callchain<V>(val); }
 
 
 // functions for examples
