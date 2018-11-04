@@ -84,6 +84,61 @@ struct CallchainV {
 	{ return v; }
 };
 
+
+template <class R, class V>
+struct CallchainF1 {
+	typedef R  fn_t(V);
+	fn_t      *fn;
+	V          val;
+
+	CallchainF1(fn_t *fn_) : fn(fn_) {}
+
+	CallchainV<R>
+	operator() (V val) const
+	{ return CallchainV<R>(fn(val)); }
+};
+
+template <class R, class V, class A2>
+struct CallchainF2 {
+	typedef R  fn_t(V, A2);
+	fn_t      *fn;
+	V          val;
+
+	CallchainF2(fn_t *fn_) : fn(fn_) {}
+
+	CallchainV<R>
+	operator() (V val, A2 a2) const
+	{ return CallchainV<R>(fn(val, a2)); }
+};
+
+template <class R, class V, class A2, class A3>
+struct CallchainF3 {
+	typedef R  fn_t(V, A2, A3);
+	fn_t      *fn;
+	V          val;
+
+	CallchainF3(fn_t *fn_) : fn(fn_) {}
+
+	CallchainV<R>
+	operator() (V val, A2 a2, A3 a3) const
+	{ return CallchainV<R>(fn(val, a2, a3)); }
+};
+
+template <class R, class V>
+CallchainF1<R,V>
+callchainF(R (*f)(V))
+{ return CallchainF1<R,V>(f); }
+
+template <class R, class V, class A2>
+CallchainF2<R,V,A2>
+callchainF(R (*f)(V,A2))
+{ return CallchainF2<R,V,A2>(f); }
+
+template <class R, class V, class A2, class A3>
+CallchainF3<R,V,A2,A3>
+callchainF(R (*f)(V,A2,A3))
+{ return CallchainF3<R,V,A2,A3>(f); }
+
 int foo(int x) { return x * 10000; }
 
 int bar(int x, int y) { return x + 100 * y; }
@@ -106,6 +161,13 @@ int main()
 
 	std::cout << nn << "\n\n";
 
+	int mm = callchainF(foo)(99)
+		           (bar)(88)
+		           (baz)(77)
+		           ();
+
+	std::cout << mm << "\n\n";
+
 	std::cout << baz(bar(foo(99), 88), 77) << "\n";
 
 	std::cout << "\n\n";
@@ -118,6 +180,13 @@ int main()
 	                                (sqrt)()
 	                                (sqrt)()
 	                                ();
+
+	std::cout << "\n\n";
+
+	std::cout << callchainF(sqrt)(12345.67)
+	                       (sqrt)()
+	                       (sqrt)()
+	                       ();
 	std::cout << "\n\n";
 
 }
