@@ -130,11 +130,15 @@ CallchainF3<R,V,A2,A3>
 callchainF(R (*f)(V,A2,A3))
 { return CallchainF3<R,V,A2,A3>(f); }
 
+
+// functions for examples
+
 int foo(int x) { return x * 10000; }
 
 int bar(int x, int y) { return x + 100 * y; }
 
 int baz(int x, int y) { return x + y; }
+
 
 std::string substr(std::string s, size_t pos, size_t len)
 {
