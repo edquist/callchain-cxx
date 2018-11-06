@@ -42,6 +42,11 @@ int bar(int x, int y) { return x + 100 * y; }
 
 int baz(int x, int y) { return x + y; }
 
+double dub  (double x)           { return 2*x; }
+double plus (double x, double y) { return x+y; }
+double minus(double x, double y) { return x-y; }
+double times(double x, double y) { return x*y; }
+double divby(double x, double y) { return x/y; }
 
 std::string substr(std::string s, size_t pos, size_t len)
 {
@@ -84,6 +89,27 @@ void ex2()
 
 void ex3()
 {
+    // (5).dub().pow(3).dub().plus(14).divby(2).minus(7).times(10).sqrt()
+
+    std::cout << sqrt(times(minus(divby(plus(dub(pow(dub(5),3)),14),2),7),10));
+
+    std::cout << "\n";
+
+    std::cout << callchain(5)(dub)
+                             (pow,3)
+                             (dub)
+                             (plus,14)
+                             (divby,2)
+                             (minus,7)
+                             (times,10)
+                             (sqrt)
+                             ();
+
+    std::cout << "\n\n---\n\n";
+}
+
+void ex4()
+{
 	// substr(xdigits,2,12).substr(5,6).substr(1,4)
 
 	std::string xdigits("0123456789abcdef");
@@ -104,5 +130,6 @@ int main()
 	ex1();
 	ex2();
 	ex3();
+	ex4();
 }
 
