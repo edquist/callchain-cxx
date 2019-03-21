@@ -33,6 +33,9 @@ std::string substr(std::string s, size_t pos, size_t len)
 
 int main()
 {
+    double pow(double x, double y);
+    double sqrt(double x);
+
     std::cout << callchain(5)(dub)
                              (pow,3)
                              (dub)
