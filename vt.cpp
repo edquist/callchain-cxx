@@ -58,15 +58,16 @@ int main()
     double pow(double x, double y);
     double sqrt(double x);
 
-    std::cout << callchain(5)(dub)
-                             (pow,3)
-                             (dub)
-                             (plus,14)
-                             (divby,2)
-                             (minus,7)
-                             (times,10)
-                             (sqrt)
-                             .value << "\n";
+    std::cout << callchain(5)
+                          (dub)
+                          (pow,3)
+                          (dub)
+                          (plus,14)
+                          (divby,2)
+                          (minus,7)
+                          (times,10)
+                          (sqrt)
+                          .value << "\n";
 
     std::cout << sqrt(times(minus(divby(plus(dub(pow(dub(5),3)),14),2),7),10))
               << "\n";
@@ -77,10 +78,11 @@ int main()
 
     std::cout << "\n";
 
-    std::cout << callchain(xdigits)(substr,2,12)
-                                   (substr,5,6)
-                                   (substr,1,4)
-                                   .value;
+    std::cout << callchain(xdigits)
+                          (substr,2,12)
+                          (substr,5,6)
+                          (substr,1,4)
+                          .value;
     std::cout << "\n";
 }
 
