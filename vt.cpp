@@ -1,23 +1,45 @@
 #include <iostream>
 #include <string>
+#include <utility>
 #include <math.h>
 
 template <class T> struct Callchain;
+
+#if 1
+
+template <class T>
+Callchain<T> callchain(T x)
+{ return Callchain<T>(x); }
+
+#else
 
 template <class T>
 Callchain<T> callchain(const T &x)
 { return Callchain<T>(x); }
 
 template <class T>
+Callchain<T> callchain(T &x)
+{ return Callchain<T>(x); }
+
+template <class T>
+Callchain<T> callchain(T &&x)
+{ return Callchain<T>(std::move(x)); }
+
+#endif
+
+template <class T>
 struct Callchain {
     T value;
 
-    Callchain(const T &x) : value(x) {}
+    Callchain(T x) : value(x) {}
 
     template <class F, class... Args>
     auto operator() (F &f, Args... args)
-      -> decltype(callchain(f(value, args...)))
-    { return callchain(f(value, args...)); }
+      -> decltype(callchain(f(std::move(value), args...)))
+    { return callchain(f(std::move(value), args...)); }
+
+    T &&operator() ()
+    { return std::move(value); }
 };
 
 double dub  (double x)           { return 2*x; }
