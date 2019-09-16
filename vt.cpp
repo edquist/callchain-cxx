@@ -39,8 +39,6 @@ struct Callchain {
 
 #if 0
     Callchain(T x)        : value(x) {}
-#elif 1
-    Callchain(T &&x)      : value(std::forward<T>(x)) {}
 #else
     Callchain(const T &x) : value(x) {}
     Callchain(T &x)       : value(x) {}
