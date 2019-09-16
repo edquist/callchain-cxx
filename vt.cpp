@@ -5,11 +5,17 @@
 
 template <class T> struct Callchain;
 
-#if 1
+#if 0
 
 template <class T>
 Callchain<T> callchain(T x)
 { return Callchain<T>(x); }
+
+#elif 1
+
+template <class T>
+Callchain<T> callchain(T &&x)
+{ return Callchain<T>(std::forward<T>(x)); }
 
 #else
 
@@ -31,12 +37,28 @@ template <class T>
 struct Callchain {
     T value;
 
-    Callchain(T x) : value(x) {}
+#if 0
+    Callchain(T x)        : value(x) {}
+#elif 1
+    Callchain(T &&x)      : value(std::forward<T>(x)) {}
+#else
+    Callchain(const T &x) : value(x) {}
+    Callchain(T &x)       : value(x) {}
+    Callchain(T &&x)      : value(std::move(x)) {}
+#endif
 
+#if 0
     template <class F, class... Args>
     auto operator() (F &f, Args... args)
-      -> decltype(callchain(f(std::move(value), args...)))
+      -> decltype(callchain(f(std::move(value), args...)))  // for pre c++14
     { return callchain(f(std::move(value), args...)); }
+#else
+    template <class F, class... Args>
+    auto operator() (F &f, Args &&...args)
+      -> decltype(callchain(f(std::move(value), std::forward<Args>(args)...)))
+         // for pre c++14
+    { return callchain(f(std::move(value), std::forward<Args>(args)...)); }
+#endif
 
     T &&operator() ()
     { return std::move(value); }
@@ -67,7 +89,7 @@ int main()
                           (minus,7)
                           (times,10)
                           (sqrt)
-                          .value << "\n";
+                          () << "\n";
 
     std::cout << sqrt(times(minus(divby(plus(dub(pow(dub(5),3)),14),2),7),10))
               << "\n";
@@ -82,7 +104,7 @@ int main()
                           (substr,2,12)
                           (substr,5,6)
                           (substr,1,4)
-                          .value;
+                          ();
     std::cout << "\n";
 }
 
