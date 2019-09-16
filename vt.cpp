@@ -11,12 +11,6 @@ template <class T>
 Callchain<T> callchain(T x)
 { return Callchain<T>(x); }
 
-#elif 1
-
-template <class T>
-Callchain<T> callchain(T &&x)
-{ return Callchain<T>(std::forward<T>(x)); }
-
 #else
 
 template <class T>
@@ -86,6 +80,19 @@ int main()
                           (divby,2)
                           (minus,7)
                           (times,10)
+                          (sqrt)
+                          () << "\n";
+
+    double z = 10;
+
+    std::cout << callchain(5)
+                          (dub)
+                          (pow,3)
+                          (dub)
+                          (plus,14)
+                          (divby,2)
+                          (minus,7)
+                          (times,z)
                           (sqrt)
                           () << "\n";
 
