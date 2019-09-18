@@ -160,7 +160,7 @@ Item t3_cc()
 Item t3_x()
 {
     Item i5(5), i7(7);
-    Item r = times(ximinus(xdivby(xdub(xplus(xdub(i5), 14)), 2), i7), 10);
+    Item r = xtimes(ximinus(xdivby(xdub(xplus(xdub(i5), 14)), 2), i7), 10);
     std::cout << "[i5=" << i5 << "]\n";
     std::cout << "[i7=" << i7 << "]\n";
     return r;
