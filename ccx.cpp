@@ -4,7 +4,6 @@
 
 #include "cc11-forward.h"
 //#include "cc11-simple.h"
-//#include "cc11-ref2.h"
 
 struct Item {
     typedef double what;
