@@ -1,6 +1,8 @@
 CXXFLAGS = -O3 -Wall
 
-extfn:
+CPPFLAGS += -std=c++11
+
+ccx:
 
 clean:
-	rm -f extfn
+	rm -f ccx
