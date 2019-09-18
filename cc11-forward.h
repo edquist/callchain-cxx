@@ -5,7 +5,7 @@
 template <class T> struct Callchain;
 
 template <class T>
-inline Callchain<T> callchain(T &&x)
+  inline Callchain<T> callchain(T &&x)
 { return Callchain<T>(std::forward<T>(x)); }
 
 template <class T>
