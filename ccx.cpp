@@ -5,11 +5,12 @@
 #include "cc11-forward.h"
 //#include "cc11-simple.h"
 
+enum State { INVALID = 0, VALID, GUTTED };
+
 struct Item {
     typedef double what;
 
     what value;
-    enum State { INVALID = 0, VALID, GUTTED };
     State state;
 
     what get() const
@@ -97,6 +98,46 @@ Item &xtimes(Item &x, Item::what y) { x.value*=y; return x; }
 Item &xdivby(Item &x, Item::what y) { x.value/=y; return x; }
 Item &ximinus(Item &x, Item &y) { x.value-=y.value; y.value *= -1; return x; }
 
+struct ItemVal {
+    State state;
+
+    ItemVal() : state(VALID) {}
+
+    ~ItemVal() {
+        std::cout << "[destroying ItemVal]\n";
+        state = INVALID;
+    }
+
+    Item::what operator() (const Item &x) const
+    {
+        std::cout << "[calling ItemVal]\n";
+        if (state != VALID)
+            std::cout << "[BAD ItemVal GET REQUEST]\n";
+        return x.get();
+    }
+};
+
+struct xItemVal {
+    Item::what v;
+    State state;
+
+    xItemVal() : v(), state(VALID) {}
+
+    ~xItemVal()
+    {
+        std::cout << "[destroying xItemVal]\n";
+        v = -999;
+        state = INVALID;
+    }
+
+    Item::what operator() (const Item &x)
+    {
+        if (state != VALID)
+            std::cout << "[BAD xItemVal GET REQUEST]\n";
+        return v = x.get();
+    }
+};
+
 Item t1_cc()
 {
     return callchain(Item(5))
@@ -166,6 +207,26 @@ Item t3_x()
     return r;
 }
 
+Item::what t4_cc()
+{
+    return callchain(Item(5))(dub)(ItemVal())();
+}
+
+Item::what t4_x()
+{
+    return ItemVal()(dub(Item(5)));
+}
+
+Item::what t5_cc()
+{
+    return callchain(Item(5))(dub)(xItemVal())();
+}
+
+Item::what t5_x()
+{
+    return xItemVal()(dub(Item(5)));
+}
+
 int main()
 {
 
@@ -184,5 +245,17 @@ int main()
     std::cout << "t3_cc: " << t3_cc() << "\n";
     std::cout << "\n";
     std::cout << "t3_x:  " << t3_x() << "\n";
+    std::cout << "\n";
+    std::cout << "---\n";
+    std::cout << "\n";
+    std::cout << "t4_cc: " << t4_cc() << "\n";
+    std::cout << "\n";
+    std::cout << "t4_x:  " << t4_x() << "\n";
+    std::cout << "\n";
+    std::cout << "---\n";
+    std::cout << "\n";
+    std::cout << "t5_cc: " << t5_cc() << "\n";
+    std::cout << "\n";
+    std::cout << "t5_x:  " << t5_x() << "\n";
 }
 
