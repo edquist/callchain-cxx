@@ -13,7 +13,7 @@ struct Callchain {
     Callchain(T x) : value(x) {}
 
     template <class F, class ...Args>
-    auto operator() (F &f, Args ...args)
+    auto operator() (F &&f, Args ...args)
       -> decltype(callchain(f(value, args...)))  // for pre C++14
     { return callchain(f(value, args...)); }
 

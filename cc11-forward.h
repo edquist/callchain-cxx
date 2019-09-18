@@ -15,7 +15,7 @@ struct Callchain {
     Callchain(T &&x) : value(std::forward<T>(x)) {}
 
     template <class F, class ...Args>
-    auto operator() (F &f, Args &&...args)
+    auto operator() (F &&f, Args &&...args)
       -> decltype(callchain(f(std::forward<T>(value),
                               std::forward<Args>(args)...)))
     {
