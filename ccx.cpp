@@ -96,7 +96,7 @@ Item &xplus (Item &x, Item::what y) { x.value+=y; return x; }
 Item &xminus(Item &x, Item::what y) { x.value-=y; return x; }
 Item &xtimes(Item &x, Item::what y) { x.value*=y; return x; }
 Item &xdivby(Item &x, Item::what y) { x.value/=y; return x; }
-Item &ximinus(Item &x, Item &y)     { x.value-=y.value; y.value *= -1; return x; }
+Item &ximinus(Item &x, Item &y) { x.value-=y.value; y.value *= -1; return x; }
 
 Item t1_cc()
 {
