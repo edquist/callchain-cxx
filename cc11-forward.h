@@ -23,8 +23,7 @@ struct Callchain {
                            std::forward<Args>(args)...));
     }
 
-    //T &&
-    decltype(std::forward<T>(value)) operator() ()
+    T &&operator() ()
     { return std::forward<T>(value); }
 };
 
