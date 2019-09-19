@@ -1,7 +1,9 @@
 CXXFLAGS = -O3 -Wall
 CPPFLAGS += -std=c++11
 
-ALL = examples
+examples:
+
+ALL = examples ccx
 
 all: $(ALL)
 
