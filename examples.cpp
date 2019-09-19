@@ -37,7 +37,7 @@ std::vector<int> v123(int n)
 {
     std::vector<int> v(n);
     for (int x = 0; x < n; x++)
-	    v[x] = x;
+        v[x] = x;
     return v;
 }
 
