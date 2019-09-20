@@ -6,6 +6,7 @@
 
 #include "callchain-forward.h"
 //#include "callchain-simple.h"
+#include "callchain-dubstep.h"
 
 enum State { INVALID = 0, VALID, GUTTED };
 
@@ -152,6 +153,18 @@ Item t1_cc()
                     ();
 }
 
+Item t1_ds()
+{
+    return callchain2(Item(5))
+                     [dub]()
+                     [plus](14)
+                     [dub]()
+                     [divby](2)
+                     [minus](7)
+                     [times](10)
+                     ();
+}
+
 Item t1_x()
 {
     return times(minus(divby(dub(plus(dub(Item(5)), 14)), 2), 7), 10);
@@ -169,6 +182,23 @@ Item t2_cc()
                     (iminus,i7)
                     (times,10)
                     ();
+    std::cout << "[i5=" << i5 << "]\n";
+    std::cout << "[i7=" << i7 << "]\n";
+    return r;
+}
+
+Item t2_ds()
+{
+    Item i5(5), i7(7);
+
+    Item r = callchain2(i5)
+                       [dub]()
+                       [plus](14)
+                       [dub]()
+                       [divby](2)
+                       [iminus](i7)
+                       [times](10)
+                       ();
     std::cout << "[i5=" << i5 << "]\n";
     std::cout << "[i7=" << i7 << "]\n";
     return r;
@@ -200,6 +230,23 @@ Item t3_cc()
     return r;
 }
 
+Item t3_ds()
+{
+    Item i5(5), i7(7);
+
+    Item r = callchain2(i5)
+                       [xdub]()
+                       [xplus](14)
+                       [xdub]()
+                       [xdivby](2)
+                       [ximinus](i7)
+                       [xtimes](10)
+                       ();
+    std::cout << "[i5=" << i5 << "]\n";
+    std::cout << "[i7=" << i7 << "]\n";
+    return r;
+}
+
 Item t3_x()
 {
     Item i5(5), i7(7);
@@ -214,6 +261,11 @@ Item::what t4_cc()
     return callchain(Item(5))(dub)(ItemVal())();
 }
 
+Item::what t4_ds()
+{
+    return callchain2(Item(5))[dub]()[ItemVal()]()();
+}
+
 Item::what t4_x()
 {
     return ItemVal()(dub(Item(5)));
@@ -222,6 +274,11 @@ Item::what t4_x()
 Item::what t5_cc()
 {
     return callchain(Item(5))(dub)(xItemVal())();
+}
+
+Item::what t5_ds()
+{
+    return callchain2(Item(5))[dub]()[xItemVal()]()();
 }
 
 Item::what t5_x()
@@ -234,11 +291,15 @@ int main()
 
     std::cout << "t1_cc: " << t1_cc() << "\n";
     std::cout << "\n";
+    std::cout << "t1_ds: " << t1_ds() << "\n";
+    std::cout << "\n";
     std::cout << "t1_x:  " << t1_x() << "\n";
     std::cout << "\n";
     std::cout << "---\n";
     std::cout << "\n";
     std::cout << "t2_cc: " << t2_cc() << "\n";
+    std::cout << "\n";
+    std::cout << "t2_ds: " << t2_ds() << "\n";
     std::cout << "\n";
     std::cout << "t2_x:  " << t2_x() << "\n";
     std::cout << "\n";
@@ -246,17 +307,23 @@ int main()
     std::cout << "\n";
     std::cout << "t3_cc: " << t3_cc() << "\n";
     std::cout << "\n";
+    std::cout << "t3_ds: " << t3_ds() << "\n";
+    std::cout << "\n";
     std::cout << "t3_x:  " << t3_x() << "\n";
     std::cout << "\n";
     std::cout << "---\n";
     std::cout << "\n";
     std::cout << "t4_cc: " << t4_cc() << "\n";
     std::cout << "\n";
+    std::cout << "t4_ds: " << t4_ds() << "\n";
+    std::cout << "\n";
     std::cout << "t4_x:  " << t4_x() << "\n";
     std::cout << "\n";
     std::cout << "---\n";
     std::cout << "\n";
     std::cout << "t5_cc: " << t5_cc() << "\n";
+    std::cout << "\n";
+    std::cout << "t5_ds: " << t5_ds() << "\n";
     std::cout << "\n";
     std::cout << "t5_x:  " << t5_x() << "\n";
 }
