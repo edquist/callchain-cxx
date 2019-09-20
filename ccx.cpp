@@ -4,9 +4,10 @@
 #include <string>
 #include <math.h>
 
-#include "callchain-forward.h"
+//#include "callchain-forward.h"
 //#include "callchain-simple.h"
-#include "callchain-dubstep.h"
+//#include "callchain-dubstep.h"
+#include "callchain-combined.h"
 
 enum State { INVALID = 0, VALID, GUTTED };
 
@@ -155,14 +156,14 @@ Item t1_cc()
 
 Item t1_ds()
 {
-    return callchain2(Item(5))
-                     [dub]()
-                     [plus](14)
-                     [dub]()
-                     [divby](2)
-                     [minus](7)
-                     [times](10)
-                     ();
+    return callchain(Item(5))
+                    [dub]()
+                    [plus](14)
+                    [dub]()
+                    [divby](2)
+                    [minus](7)
+                    [times](10)
+                    ();
 }
 
 Item t1_x()
@@ -191,14 +192,14 @@ Item t2_ds()
 {
     Item i5(5), i7(7);
 
-    Item r = callchain2(i5)
-                       [dub]()
-                       [plus](14)
-                       [dub]()
-                       [divby](2)
-                       [iminus](i7)
-                       [times](10)
-                       ();
+    Item r = callchain(i5)
+                      [dub]()
+                      [plus](14)
+                      [dub]()
+                      [divby](2)
+                      [iminus](i7)
+                      [times](10)
+                      ();
     std::cout << "[i5=" << i5 << "]\n";
     std::cout << "[i7=" << i7 << "]\n";
     return r;
@@ -234,14 +235,14 @@ Item t3_ds()
 {
     Item i5(5), i7(7);
 
-    Item r = callchain2(i5)
-                       [xdub]()
-                       [xplus](14)
-                       [xdub]()
-                       [xdivby](2)
-                       [ximinus](i7)
-                       [xtimes](10)
-                       ();
+    Item r = callchain(i5)
+                      [xdub]()
+                      [xplus](14)
+                      [xdub]()
+                      [xdivby](2)
+                      [ximinus](i7)
+                      [xtimes](10)
+                      ();
     std::cout << "[i5=" << i5 << "]\n";
     std::cout << "[i7=" << i7 << "]\n";
     return r;
@@ -263,7 +264,7 @@ Item::what t4_cc()
 
 Item::what t4_ds()
 {
-    return callchain2(Item(5))[dub]()[ItemVal()]()();
+    return callchain(Item(5))[dub]()[ItemVal()]()();
 }
 
 Item::what t4_x()
@@ -278,7 +279,7 @@ Item::what t5_cc()
 
 Item::what t5_ds()
 {
-    return callchain2(Item(5))[dub]()[xItemVal()]()();
+    return callchain(Item(5))[dub]()[xItemVal()]()();
 }
 
 Item::what t5_x()
