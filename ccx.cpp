@@ -4,10 +4,7 @@
 #include <string>
 #include <math.h>
 
-//#include "callchain-forward.h"
-//#include "callchain-simple.h"
-//#include "callchain-dubstep.h"
-#include "callchain-combined.h"
+#include "callchain.h"
 
 enum State { INVALID = 0, VALID, GUTTED };
 

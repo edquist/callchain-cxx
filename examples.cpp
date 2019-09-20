@@ -3,7 +3,7 @@
 #include <vector>
 #include <math.h>
 
-#include "callchain-forward.h"
+#include "callchain.h"
 
 ///// "functions" /////
 
