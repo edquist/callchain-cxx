@@ -32,6 +32,10 @@ struct Callchain {
 
     V &&operator() ()
     { return std::forward<V>(value); }
+
+    // allow automatic conversion to value type
+    operator V &&()
+    { return std::forward<V>(value); }
 };
 
 // callchain(x)(foo)(bar,y,z)(baz)() --> baz(bar(foo(x),y,z))
